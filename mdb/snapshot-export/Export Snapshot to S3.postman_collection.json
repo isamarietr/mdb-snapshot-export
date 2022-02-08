@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "6131ed65-9976-480c-8040-444269d90eff",
+		"name": "Export Snapshot to S3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Cloud Backup - Export",
+			"item": [
+				{
+					"name": "Get All Export Buckets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/backup/exportBuckets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"backup",
+								"exportBuckets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Cloud Provider Access Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/cloudProviderAccess",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"cloudProviderAccess"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a new Export Bucket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bucketName\": \"BUCKET-NAME\",\n    \"cloudProvider\": \"AWS\",\n    \"iamRoleId\": \"EXTERNAL-ROLE-ID\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/backup/exportBuckets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"backup",
+								"exportBuckets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Existing Snapshot to S3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"snapshotId\": \"SNAPSHOT-ID\",\n    \"exportBucketId\": \"BUCKET-ID\",\n    \"customData\": [\n        {\n            \"key\": \"exported_by\",\n            \"value\": \"isa\"\n        },\n        {\n            \"key\": \"from_project\",\n            \"value\": \"myproject\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/clusters/{{CLUSTER-NAME}}/backup/exports",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"clusters",
+								"{{CLUSTER-NAME}}",
+								"backup",
+								"exports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Snapshot Export Jobs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"snapshotId\": \"SNAPSHOT-ID\",\n    \"exportBucketId\": \"BUCKET-ID\",\n    \"customData\": [\n        {\n            \"key\": \"exported_by\",\n            \"value\": \"isa\"\n        },\n        {\n            \"key\": \"from_project\",\n            \"value\": \"myproject\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/clusters/{{CLUSTER-NAME}}/backup/exports",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"clusters",
+								"{{CLUSTER-NAME}}",
+								"backup",
+								"exports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Cloud Backups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/atlas/{{version}}/groups/{{ProjectID}}/clusters/{{CLUSTER-NAME}}/backup/snapshots",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"atlas",
+								"{{version}}",
+								"groups",
+								"{{ProjectID}}",
+								"clusters",
+								"{{CLUSTER-NAME}}",
+								"backup",
+								"snapshots"
+							]
+						},
+						"description": "https://docs.atlas.mongodb.com/reference/api/cloud-backup/backup/get-all-backups/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
