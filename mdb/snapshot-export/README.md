@@ -35,11 +35,9 @@ This part is better done using the Atlas UI. Let's check it out.
   b) Creating an AWS IAM Role with a trust policy (for Atlas to assume your role)
   
   You can also do this using the API. Check out the [documentation](https://docs.atlas.mongodb.com/security/set-up-unified-aws-access/) for more info: 
-  
 	![](figure5.png)
 
-	Note: Once you issue the command is Step 3, you will get a JSON back. You will enter the value of **"Arn"** in Step 4.
-
+*Note: Once you issue the command is Step 3, you will get a JSON back. You will enter the value of **"Arn"** in Step 4.*
 	![](figure5e.png)
 
 6. Once you've validated and finished the setup, you should get the following message.
@@ -69,7 +67,7 @@ To Export an existing snapshot to your S3 bucket you need to create an export bu
 
 Check out [Cloud Backup Snapshot Export API](https://docs.atlas.mongodb.com/reference/api/cloud-backup/export/exports/) documentation for more info.
 
-You can also import the [Export Snapshot Collection](Export Snapshot to S3.postman_collection.json) to Postman.
+You can also import the [Export Snapshot Collection](export_to_s3_postman_collection.json) to Postman. If you have the [MongoDB APIs Postman Collection](https://www.postman.com/mongodb-devrel/workspace/mongodb-public/overview) already in your Postman workspace, you can use the same environment variables, otherwise use [this environment file](Atlas.postman_environment.json).
 
 ### Create an Export Bucket
 
@@ -133,7 +131,7 @@ Then the job will be Queued and later on started!
 
 ## Restoring from an S3 Snapshot
 
-This doesn't seem to be possible at the time...
+This doesn't seem to be possible from the `restoreJobs` API at the time...
 
 ```
 {
@@ -145,4 +143,22 @@ This doesn't seem to be possible at the time...
     ],
     "reason": "Forbidden"
 }
+```
+
+However, you can use `mongorestore` to restore a cluster using these files. Some alternatives are: 1) Download and restore, or 2) Pipe S3 to mongoimport
+
+*Note: You may be tempted to add your S3 bucket to an Atlas Data Lake and use `$out` to write the data to a cluster, but considering that all data sources in a Data Lake are read-only, this won't work.*
+
+Download and mongoimport:
+
+```
+> gzip -d your_snapshot_file.json.gz
+> mongoimport -d database -c collection "mongodb+srv://user:pwd@cluster_host" your_snapshot_file.json
+```
+OR...
+
+Pipe S3 to mongoimport:
+
+```
+aws s3 cp s3://your_snapshot_file_s3_uri - | gzip -d - | mongoimport -d database -c collection "mongodb+srv://user:pwd@cluster_host"
 ```
