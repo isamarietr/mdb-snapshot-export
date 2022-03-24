@@ -1,4 +1,4 @@
-# Export a Snapshot to S3
+# Export a Snapshot from MongoDB Atlas to an AWS S3 bucket
 ## Setup
 ### Create a S3 Bucket
 Create your bucket using the AWS Management Console or by using the following AWS CLI command:
