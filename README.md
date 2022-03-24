@@ -198,6 +198,7 @@ However, you can use `mongorestore` to restore a cluster using these files. Some
 
 *Note: You may be tempted to add your S3 bucket to an Atlas Data Lake and use `$out` to write the data to a cluster, but considering that all data sources in a Data Lake are read-only, this won't work.*
 
+## Single snapshot file
 Download and mongoimport:
 
 ```
@@ -211,3 +212,7 @@ Pipe S3 to mongoimport:
 ```
 aws s3 cp s3://your_snapshot_file_s3_uri - | gzip -d - | mongoimport -d database -c collection "mongodb+srv://user:pwd@cluster_host"
 ```
+
+## Multiple snapshot files
+
+Check out the docs for [Import Archive from S3](https://www.mongodb.com/docs/atlas/backup/cloud-backup/import-archive/#import-archive-from-s3).
